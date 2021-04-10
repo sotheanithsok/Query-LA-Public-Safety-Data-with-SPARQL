@@ -33,6 +33,7 @@ while (not done):
         sucess_option_1=False
     elif sucess_option_2:
         print("INFO: Successfully query RDF graph")
+        print(query_result)
         sucess_option_2=False
     elif sucess_option_3:
         print("INFO: Successfully modify filename")
