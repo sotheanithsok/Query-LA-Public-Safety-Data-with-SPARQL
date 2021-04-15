@@ -25,7 +25,7 @@ while (not done):
 
     print(" Parameters: \n     \u2022 Arrest Reports URL: %s \n     \u2022 Crime Reports URL: %s \n     \u2022 RDF Filename: %s \n     \u2022 Max Data Count to Download: %s" % (arrest_reports_url, crime_reports_url, filename, max_data_count))
 
-    print(" Options: \n     1. Run \n     2. Query \n     3. Modify filename \n     4. Modify max max data count \n     5. Exit")
+    print(" Options: \n     1. Generate RDF file \n     2. Query \n     3. Modify filename \n     4. Modify max max data count \n     5. Exit")
 
     #User's input feedback
     if sucess_option_1:
@@ -47,14 +47,19 @@ while (not done):
 
     #Option 1: Generate RDF and save to file
     if (user_input=="1"):
-        manager = Manager(destination=filename, dataset_size=max_data_count)
+        if not manager:
+            manager = Manager()
+            manager.import_reports(max_data_count)
+
+        manager.export_file(filename)
         sucess_option_1=True
         pass
 
     #Option 2: Query graph
     elif (user_input=="2"):
         if not manager:
-            manager = Manager(destination=filename, dataset_size=max_data_count)
+            manager = Manager()
+            manager.import_reports(max_data_count)
 
         q = input("Enter query: ")
         query_result = manager.query(q)
