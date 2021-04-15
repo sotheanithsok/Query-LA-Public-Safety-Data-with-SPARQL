@@ -3,91 +3,106 @@ from csv import reader, writer
 from hashlib import md5
 from .monitor import Monitor
 from pandas import DataFrame, read_csv
-from os import path
-from rdflib import Graph, Literal, Namespace, URIRef
+from pathlib import Path
+from rdflib import Graph, Literal, Namespace, URIRef, ConjunctiveGraph
 from rdflib.plugins.sparql import prepareQuery
 from rdflib.namespace import RDFS, RDF, XSD
 from requests import exceptions, Session
 
 class Manager:
-    def __init__(self, destination='output.rdf', reinitialize = False, dataset_size=99999999):
-        """Initalize Manager object. 
-
-        Args:
-            destination (str, optional): path where rdf graph should be save to or located. Defaults to 'output.rdf'.
-            reinitialize (bool, optional): if True, the rdf graph will be reconstructed as if no RDF file exists locally. Defaults to False.
-            dataset_size (int, optional): the amount of data should be downloaded per dataset. Defaults to 99999999.
+    def __init__(self):
+        """Initialize Manager class
         """
+        #Create Conjunctive Graph to store all other graphs
+        self.c_graph = ConjunctiveGraph()
 
-        #Intialize a Monitor class to help tracks progress of all operations
+        #Initialize the monitor class to print progress
         self.monitor = Monitor()
 
-        #Determine if Manager should load rdf graph from file or not
-        if destination and path.exists(destination) and reinitialize == False:
-            self.graph = self._load_graph(destination)
-        else:
-            self.graph = self._initialize_graph(destination, dataset_size=dataset_size)
+        #Initialize a list to store all imported rdf files
+        self.files=[]
 
-    def _initialize_graph(self, destination, dataset_size, base_url = "https://data.lacity.org/", arrest_reports_url ="https://data.lacity.org/resource/amvf-fr72", crime_reports_url = "https://data.lacity.org/resource/2nrs-mtv8"):
-        """Initialize rdf graph from data on the web. 
-
-        Args:
-            destination (str): path to where rdf graph should be save to
-            dataset_size (int): the amount of data should be downloaded per dataset
-            base_url (str, optional): base url where all datasets originated from. Defaults to "https://data.lacity.org/".
-            arrest_reports_url (str, optional): url where arrest reports dataset located. Defaults to "https://data.lacity.org/resource/amvf-fr72".
-            crime_reports_url (str, optional): url where crime reports dataset located. Defaults to "https://data.lacity.org/resource/2nrs-mtv8".
+    def get_context_id (self):
+        """Get id(name) of all RDF sub-graphs
 
         Returns:
-            Graph: a rdf graph contains triples generated from arrest reports and crime reports
+            string: id of all RDF sub-graphs
         """
-
-        print('INFO: Initializing RDF graph...')
-
-        #Create namepsace bsed on the base url
-        namespace = Namespace(base_url)
-
-        #Download datasets 
-        arrest_reports = self._get_dateset(arrest_reports_url, dataset_size)
-        crime_reports = self._get_dateset(crime_reports_url, dataset_size)
-
-        #Process datasets
-        arrest_reports = self._process_arrest_reports(arrest_reports)
-        crime_reports = self._process_crime_reports(crime_reports)
-
-        #Convert datasets to rdf graphs
-        g0 = self._add_arrest_reports_to_graph(arrest_reports, namespace)
-        g1 = self._add_crime_reports_to_graph(crime_reports,namespace)
-
-        #Merge rdf graphs into a single rdf graph
-        g = self._merge_graphs([g0,g1])
-
-        #Export the rdf graph to file
-        self._export(g, destination=destination)
-
-        return g
-
-    def _load_graph(self, destination):
-        """Load rdf graph from file
-
-        Args:
-            destination (str): path to where rdf graph should be located 
-
-        Returns:
-            Graph: a rdf graph contains triples generated from arrest reports and crime reports
-        """
-
-        print('INFO: Loading RDF graph from \'%s\'...' % destination)
-
-        self.monitor.start(mode=1)
-
-        g = Graph().parse(destination)
-
-        self.monitor.stop()
-
-        return g
+        ids = []
+        for context in self.c_graph.contexts():
+            ids.append(str(context.identifier))
+        return ids
         
-    def _get_dateset(self, url, dataset_size):
+    def get_namespace (self):
+        """Get all prefixes and namespaces of the current graphs
+
+        Returns:
+            [(string, string)]: a list of tuples containing prefixes and namespaces 
+        """
+        return list(self.c_graph.namespaces())
+
+    def query (self, query, id=None):
+        """Query RDF graphs using SPARQL
+
+        Args:
+            query (SPARQL string): SPARQL statments used to query the graph
+            id (string, optional): Name of sub graphs to query. Leave to None if entire RDF graph should be query. Defaults to None.
+
+        Returns:
+            list of resources: a list of resources that met the SPARQL statments
+        """
+        try:
+            if id:
+                return list(self.c_graph.get_context(id).query(query))
+            else:
+                return list(self.c_graph.query(query))
+        except:
+            return []            
+
+    def import_file (self, filename):
+        """Import RDF graph from files. Must be XML formatted. The subgraph id will be based on filename.
+
+        Args:
+            filename (string): path to RDF file
+        """
+        path = Path(filename).absolute()
+        print("INFO: Importing RDF graph from \'%s\'..." % str(path))
+        if path.exists():
+            id = path.stem
+            self.c_graph.parse(source=str(path), format='xml', publicID=id)
+            file.append({'filename':str(path), 'size':path.stat().st_size})
+
+    def export_file (self, filename, id=None):
+        """Expoert RDF graph or subgraph to file. Provide id to specify the sub graph to export. 
+
+        Args:
+            filename (string): path to RDF file
+            id (string, optional): Name of sub graphs to export. Leave to None if entire RDF graph should be exported . Defaults to None.
+        """
+        path = Path(filename).absolute()
+        if not id:
+            print("INFO: Exporting full RDF graph to \'%s\'..." % str(path))
+            self.monitor.start(mode=1)
+            self.c_graph.serialize(destination=filename, format='pretty-xml')
+            self.monitor.stop()
+        else:
+            print("INFO: Exporting \'%s\' RDF sub-graph to \'%s\'..." % (id, path))
+            self.monitor.start(mode=1)
+            for g in self.c_graph.contexts():
+                if str(g.identifier) == id:
+                    g.serialize(destination=filename, format='pretty-xml')
+            self.monitor.stop()
+    
+    def import_reports(self, dataset_size):
+        """Import arrest reports and crime reports from the web
+
+        Args:
+            dataset_size (int): the maximum of data per dataset to include
+        """
+        self._import_arrest_reports(dataset_size=dataset_size)
+        self._import_crime_reports(dataset_size=dataset_size)
+
+    def _download_csv(self, url, dataset_size):
         """Download data from a given url and convert such data to DataFrame
 
         Args:
@@ -97,7 +112,6 @@ class Manager:
         Returns:
             DataFrame: a dataframe contains all data from a given url
         """
-
         try:
             with Session() as sess:
 
@@ -128,57 +142,27 @@ class Manager:
         except Exception as e:
             print('ERROR: %s' % (e))
     
-    def _process_arrest_reports(self, arrest_reports):
-        """Process arrest reports
+    def _import_arrest_reports (self, url = 'https://data.lacity.org/resource/amvf-fr72', dataset_size=9999999999):
+        """Import arrest reports from the web
 
         Args:
-            arrest_reports (DataFrame): a dataframe contains all raw data from arrest reports
-
-        Returns:
-            DataFrame: a dataframe contains all processed data from arrest reports
+            url (str, optional): url of arrest reports. Defaults to 'https://data.lacity.org/resource/amvf-fr72'.
+            dataset_size (int, optional): the maximum of data per dataset to include. Defaults to 9999999999.
         """
 
+        #Download dataset
+        arrest_reports = self._download_csv(url, dataset_size)
+
+        #Format dataset
         print('INFO: Processing arrest reports...')
-
         self.monitor.start(total=arrest_reports.shape[1], unit_scale=int(arrest_reports.shape[0]/arrest_reports.shape[1]),mode=2)
-
         arrest_reports = arrest_reports.progress_apply(lambda x: x.astype(str).str.upper().replace(' +', ' ', regex=True))
-        
-        return arrest_reports
-    
-    def _process_crime_reports(self, crime_reports):
-        """Process crime reports
 
-        Args:
-            crime_reports (DataFrame): a dataframe contains all raw data from crime reports
-
-        Returns:
-            DataFrame: a dataframe contains all processed data from crime reports
-        """
-
-        print('INFO: Processing crime reports...')
-
-        self.monitor.start(total=crime_reports.shape[1], unit_scale=int(crime_reports.shape[0]/crime_reports.shape[1]),mode=2)
-
-        crime_reports = crime_reports.progress_apply(lambda x: x.astype(str).str.upper().replace(' +', ' ', regex=True))
-
-        return crime_reports
-    
-    def _add_arrest_reports_to_graph(self, arrest_reports, namespace):
-        """Add arrest reports to a rdf graph
-
-        Args:
-            arrest_reports (DataFrame): a dataframe contains data from arrest reports
-            namespace (Namespace): an identifier where data of arrest reports are assocaited with. 
-
-        Returns:
-            Graph: a rdf graph contains data from arrest reports
-        """
-
+        #Import dataset to graph
         print('INFO: Adding arrest reports to graph...')
+        namespace = Namespace(url.split('resource')[0])
 
         self.monitor.start(mode=1)
-
 
         #Convert data to rdf literals or URIRefs
         reports = ('Report#'+ arrest_reports['rpt_id'].apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
@@ -217,9 +201,9 @@ class Manager:
         booking_codes = arrest_reports['bkg_loc_cd'].apply(lambda x : Literal(x, datatype=XSD.integer))
 
         #Add data to a rdf graph
-        graph = Graph()
+        graph = Graph(store=self.c_graph.store, identifier='arrest-reports')
 
-        graph.addN([(s, RDF.type, namespace['ArrestReports'], graph) for s in reports])
+        graph.addN([(s, RDF.type, namespace['ArrestReport'], graph) for s in reports])
 
         graph.addN([(s, namespace['hasID'], o, graph) for s,o in zip(reports, ids)])
         graph.addN([(s, namespace['hasDate'], o, graph) for s, o in zip(reports, dates)])
@@ -261,20 +245,25 @@ class Manager:
 
         self.monitor.stop()
 
-        return graph
-
-    def _add_crime_reports_to_graph(self, crime_reports,namespace):
-        """Add crime reports to a rdf graph
+    def _import_crime_reports (self, url = 'https://data.lacity.org/resource/2nrs-mtv8', dataset_size=9999999999):
+        """Import crime reports from the web
 
         Args:
-            crime_reports (DataFrame): a dataframe contains data from crime reports
-            namespace (Namespace): an identifier where data of crime reports are assocaited with. 
-
-        Returns:
-            Graph: a rdf graph contains data from crime reports
+            url (str, optional): url of crime reports. Defaults to 'https://data.lacity.org/resource/2nrs-mtv8'.
+            dataset_size (int, optional): the maximum of data per dataset to include. Defaults to 9999999999.
         """
 
+        #Download dataset
+        crime_reports = self._download_csv(url,dataset_size)
+
+        #Format dataset
+        print('INFO: Processing crime reports...')
+        self.monitor.start(total=crime_reports.shape[1], unit_scale=int(crime_reports.shape[0]/crime_reports.shape[1]),mode=2)
+        crime_reports = crime_reports.progress_apply(lambda x: x.astype(str).str.upper().replace(' +', ' ', regex=True))
+
+        #Add dataset to graph
         print('INFO: Adding crime reports to graph...')
+        namespace = Namespace(url.split('resource')[0])
 
         self.monitor.start(mode=1)
 
@@ -323,7 +312,7 @@ class Manager:
         status_descriptions = crime_reports['status_desc'].apply(lambda x : Literal(x, datatype=XSD.string))
 
         #Add data to a rdf graph
-        graph = Graph()
+        graph = Graph(store=self.c_graph.store, identifier='crime-reports')
 
         graph.addN([(s, RDF.type, namespace['CrimeReport'], graph) for s in reports])
 
@@ -376,68 +365,3 @@ class Manager:
         graph.addN([(s, namespace['hasStatusDescription'], o, graph) for s, o in zip(statuss, status_descriptions)])
 
         self.monitor.stop()
-
-        return graph
-
-    def _merge_graphs(self, graphs):
-        """Merge multiple rdf graphs into a rdf graph
-
-        Args:
-            graphs (list): a list of rdf graph
-
-        Returns:
-            Graph: a rdf graph contains all information of a given list of rdf graphs
-        """
-
-        print("INFO: Merging %s RDF graphs..." % len(graphs))
-
-
-        def recursive_merge(l):
-            if len(l)==1:
-                return l[0]
-            return recursive_merge(l[: int(len(l)/2)]) + recursive_merge(l[int(len(l)/2):])
-        
-        self.monitor.start(mode=1)
-
-        g = recursive_merge(graphs)
-
-        self.monitor.stop()
-
-        return g
-
-    def _export(self, graph, destination, format='pretty-xml'):
-        """Export a rdf graph to a file with a given format
-
-        Args:
-            graph (Graph): a rdf graph
-            destination (str): path to where a rdf graph should be save to
-            format (str, optional): format of a rdf graph. Defaults to 'pretty-xml'.
-        """
-
-        print("INFO: Exporting RDF graph formatted as \'%s\'..." % format)
-
-        self.monitor.start(mode=1)
-
-        graph.serialize(destination=destination, format = format) 
-
-        self.monitor.stop()
-
-    def query (self, query):
-        """Query the rdf graph using sparql. Use ":" to indicate namespace 
-
-        Args:
-            query (str): sparql query statement.
-
-        Returns:
-            [list]: a list of triples
-        """
-        *_, last = self.graph.namespaces()
-        name, ref = last
-        query =query.replace(':', name+':')
-
-        try:
-            return list(self.graph.query(query))
-        except Exception as e:
-            print (e)
-
-
