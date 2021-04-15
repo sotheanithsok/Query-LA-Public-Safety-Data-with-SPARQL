@@ -64,7 +64,7 @@ class Manager:
         for i in range(len(result)):
             result[i] = list(result[i])
             for j in range(len(result[i])):
-                    esult[i][j] = str(result[i][j])
+                    result[i][j] = str(result[i][j])
 
         return result           
 
