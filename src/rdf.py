@@ -79,7 +79,6 @@ class Manager:
         if path.exists():
             id = path.stem
             self.c_graph.parse(source=str(path), format='xml', publicID=id)
-            file.append({'filename':str(path), 'size':path.stat().st_size})
 
     def export_file (self, filename, id=None):
         """Expoert RDF graph or subgraph to file. Provide id to specify the sub graph to export. 
