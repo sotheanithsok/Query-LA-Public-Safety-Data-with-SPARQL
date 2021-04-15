@@ -51,13 +51,22 @@ class Manager:
         Returns:
             list of resources: a list of resources that met the SPARQL statments
         """
+        result = []
         try:
             if id:
-                return list(self.c_graph.get_context(id).query(query))
+                result = list(self.c_graph.get_context(id).query(query))
             else:
-                return list(self.c_graph.query(query))
+                result = list(self.c_graph.query(query))
         except:
-            return []            
+            pass
+        
+        #Convert all values from URIRef and Literal to string
+        for i in range(len(result)):
+            result[i] = list(result[i])
+            for j in range(len(result[i])):
+                    esult[i][j] = str(result[i][j])
+
+        return result           
 
     def import_file (self, filename):
         """Import RDF graph from files. Must be XML formatted. The subgraph id will be based on filename.
@@ -202,6 +211,7 @@ class Manager:
 
         #Add data to a rdf graph
         graph = Graph(store=self.c_graph.store, identifier='arrest-reports')
+        graph.bind('ns1', namespace)
 
         graph.addN([(s, RDF.type, namespace['ArrestReport'], graph) for s in reports])
 
@@ -313,6 +323,7 @@ class Manager:
 
         #Add data to a rdf graph
         graph = Graph(store=self.c_graph.store, identifier='crime-reports')
+        graph.bind('ns1', namespace)
 
         graph.addN([(s, RDF.type, namespace['CrimeReport'], graph) for s in reports])
 
