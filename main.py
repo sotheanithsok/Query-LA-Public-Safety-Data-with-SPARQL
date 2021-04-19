@@ -11,5 +11,8 @@ handler = install_scheme_handler()
 #Initlaize main window
 mw = MainWindow(Manager(), handler)
 
+#Provide ui reference to handler
+handler.set_ui(mw)
+
 #Show QApplication
 app.exec()

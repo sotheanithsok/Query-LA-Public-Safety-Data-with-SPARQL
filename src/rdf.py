@@ -91,7 +91,7 @@ class Manager:
             else:
                 return False, filename
         except:
-            return False, path
+            return False, filename
         finally:
             self.monitor.stop()
 

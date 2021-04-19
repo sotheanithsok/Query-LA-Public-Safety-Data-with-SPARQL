@@ -7,6 +7,7 @@ import PyQt5.QtWidgets as qtw
 import PyQt5.QtWebEngineCore as qtwec
 import PyQt5.QtWebEngineWidgets as qtwew
 import re
+from urllib.parse import quote, unquote
 
 class MainWindow (qtw.QWidget):
     """The MainWindow class used to initialize ui and its functionality. 
@@ -249,14 +250,25 @@ class MainWindow (qtw.QWidget):
         #Retreive the query from sparql input field component
         query = self.findChild(qtw.QPlainTextEdit, 'sparql-query').toPlainText()
 
+        self.excute_query_process(query)
+        
+        
+    def excute_query_process(self, query):
+        """Execute query and update ui to reflex the new changes.
+
+        Args:
+            query (string): a sparql statment used to query  the graph.
+        """
         #Query graph
         result = self.rdf_manager.query(query)
 
         #Extract headers from SPARQL query. Use 1,2,3... if no header is provided.
         splitted_query = re.split('where', query, flags=re.IGNORECASE)[0]
-        splitted_query = re.split(' ', splitted_query)[1:]
-        splitted_query = [x for x in splitted_query if x !='']
-        if '*' in splitted_query:
+        splitted_query = re.split(' ', splitted_query)
+        splitted_query = [x for x in splitted_query if '?' in x]
+        splitted_query = [x.replace('(','').replace(')','') for x in splitted_query]
+
+        if '*' in re.split('where', query, flags=re.IGNORECASE)[0]:
             headers = [x for x in range(len(result[0]))]
         else:
             headers = [x[1:] for x in splitted_query]
@@ -279,8 +291,10 @@ class MainWindow (qtw.QWidget):
 
         #Show chunk 0 
         self.chunk_selection_change(0)
-        
+
+
     def to_html_button_clicked(self):
+        
         """Execute when To HTML button is clicked.
         """
         #Disable To HTML button
@@ -321,7 +335,7 @@ class MainWindow (qtw.QWidget):
         
         #Reset web viwer and load new resppond
         self.findChild(qtwew.QWebEngineView, 'html-output').setHtml('')
-        self.findChild(qtwew.QWebEngineView, 'html-output').load(qtc.QUrl('CustomURLScheme:foo'))
+        self.findChild(qtwew.QWebEngineView, 'html-output').load(qtc.QUrl('custom-url-scheme://retrieve-data/'))
 
     def chunk_selection_change(self, index):
         """Execute when result chuck selection is changed.
@@ -371,8 +385,17 @@ class MainWindow (qtw.QWidget):
                         for j in data[i]:
                             if 'https://' in j or 'http://' in j:
                                 with td():
-                                    node = a(j)
-                                    node['href']='.'
+                                    #Replace namepsace with prefix
+                                    shorted_name = j
+                                    for prefix_namespace in self.rdf_manager.get_namespace():
+                                        prefix, namespace = prefix_namespace
+                                        prefix = str(prefix)+':'
+                                        namespace = str(namespace)
+                                        if namespace in j:
+                                            shorted_name = j.replace(namespace, prefix)
+
+                                    node = a(shorted_name)
+                                    node['href']='custom-url-scheme://redirect-to/' + quote('<'+ j + '>') + '/'
                             else:
                                 td(j)
         return (str(doc))
@@ -422,9 +445,42 @@ class SchemeHandler (qtwec.QWebEngineUrlSchemeHandler):
         super().__init__(parent)
         self._data = ''
         self._type = ''
+        self._ui=None
 
     def requestStarted(self, job):
         """Execute when http occured.
+
+        Args:
+            job (PyQt5.QtWebEngineCore.QWebEngineUrlRequestJob): the object contains all information related to the request.
+        """
+        request_url = job.requestUrl().toString()
+        if request_url =='custom-url-scheme://retrieve-data/':
+            self._request_to_retrieve_data(job)
+        else:
+            target = request_url[32: len(request_url)-1]
+            target = unquote(target)
+            self._rediect_to_data(job, target)
+            pass
+
+    def _rediect_to_data(self, job, target):
+        """Tell main window to execute a query for new target
+
+        Args:
+            job (PyQt5.QtWebEngineCore.QWebEngineUrlRequestJob): the object contains all information related to the request.
+            target (string): the reference that should be direct to
+        """
+        query0 = 'SELECT (COALESCE(%s) as ?s) ?p ?o WHERE {%s ?p ?o}' % (target, target)
+        query1 = 'SELECT ?s (COALESCE(%s) as ?p) ?o WHERE {?s %s ?o}' % (target, target)
+        query2 = 'SELECT ?s ?p (COALESCE(%s) as ?o) WHERE {?s ?p %s}' % (target, target)
+
+        query = 'SELECT ?s ?p ?o WHERE {{%s} UNION {%s} UNION {%s}}' % (query0, query1, query2)
+
+        self._ui.excute_query_process(query)
+        pass
+
+
+    def _request_to_retrieve_data(self, job):
+        """Execute this function when a request to retreive data is recevied
 
         Args:
             job (PyQt5.QtWebEngineCore.QWebEngineUrlRequestJob): the object contains all information related to the request.
@@ -438,6 +494,7 @@ class SchemeHandler (qtwec.QWebEngineUrlSchemeHandler):
 
         #Replay to the request with data and its type
         job.reply(self._type, buff)
+
     
     def set_data(self, data):
         """Modify data stored in this handler.
@@ -455,6 +512,14 @@ class SchemeHandler (qtwec.QWebEngineUrlSchemeHandler):
         """
         self._type = ('text/'+ type_).encode()
 
+    def set_ui(self, ui):
+        """Provide reference of ui to the handler.
+
+        Args:
+            ui (MainWindow): reference of ui.
+        """
+        self._ui = ui
+
 def install_scheme_handler():
     """Initlaize custom url scheme and register it with a handler .
 
@@ -462,7 +527,7 @@ def install_scheme_handler():
         handler: the handler responsibles for responding to custom url requests .
     """
     #initlaize url scheme
-    scheme =  qtwec.QWebEngineUrlScheme(b'CustomURLScheme')
+    scheme =  qtwec.QWebEngineUrlScheme(b'custom-url-scheme')
     scheme.setSyntax(qtwec.QWebEngineUrlScheme.Syntax.HostAndPort)
     scheme.setDefaultPort(2345)
     scheme.setFlags(qtwec.QWebEngineUrlScheme.Flag.SecureScheme) 
@@ -470,6 +535,6 @@ def install_scheme_handler():
 
     #Register url scheme and handler together
     handler = SchemeHandler(qtw.QApplication.instance())
-    qtwew.QWebEngineProfile.defaultProfile().installUrlSchemeHandler(b'CustomURLScheme', handler)
+    qtwew.QWebEngineProfile.defaultProfile().installUrlSchemeHandler(b'custom-url-scheme', handler)
     
     return handler        
