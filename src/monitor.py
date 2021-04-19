@@ -3,8 +3,10 @@ from threading import Timer, Thread
 from time import sleep
 
 class Monitor ():
+    """A Monitor class used to keep track of the current progress of some functions.
+    """
     def __init__(self, unit = 'data', finite_bar_format = '{n_fmt}/{total_fmt} [{bar}] - {elapsed} - {rate_fmt}', infinite_bar_format='{n_fmt}/∞ [{bar}] - {elapsed}'):
-        """Initialize Monitor object
+        """Initialize Monitor object.
 
         Args:
             unit (str, optional): unit label. Defaults to 'data'.
@@ -22,7 +24,7 @@ class Monitor ():
         self._is_tqdm_thread_activate = False
 
     def start(self, total = None, unit_scale=None, mode=0):
-        """Generate a tqdm progress bar based a given mode
+        """Generate a tqdm progress bar based a given mode.
 
         Args:
             total (int, optional): a total tick of the progress bar. Defaults to None.
@@ -47,14 +49,14 @@ class Monitor ():
             tqdm.pandas(total=total, unit_scale=unit_scale, ncols=self._ncols, unit=self._unit ,leave=self._leave, bar_format=self._finite_bar_format)
     
     def stop(self):
-        """Stop and clean up a tqdm progress bar
+        """Stop and clean up a tqdm progress bar.
         """
         self._tqdm.close()
         if self._mode==1:
             self._is_tqdm_thread_activate=False
 
     def update(self, n = 1):
-        """Update a tqdm progress bar
+        """Update a tqdm progress bar.
 
         Args:
             n (int, optional): the number of tick that the progress bar should be progress by. It can't be more than total. Defaults to 1.
@@ -67,7 +69,7 @@ class Monitor ():
             self._tqdm.update(n)
 
     def _auto_update(self):
-        """A self call update of a tqdm a progress bar. This is only applicable to mode = 1 
+        """A self call update of a tqdm a progress bar. This is only applicable to mode = 1.
         """
         while self._is_tqdm_thread_activate:
             self.update()

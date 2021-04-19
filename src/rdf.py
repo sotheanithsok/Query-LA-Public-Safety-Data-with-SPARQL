@@ -10,8 +10,10 @@ from rdflib.namespace import RDFS, RDF, XSD
 from requests import exceptions, Session
 
 class Manager:
+    """A Manager class used to manage context-aware rdf graph.
+    """
     def __init__(self):
-        """Initialize Manager class
+        """Initialize Manager class.
         """
         #Create Conjunctive Graph to store all other graphs
         self.c_graph = ConjunctiveGraph()
@@ -23,10 +25,10 @@ class Manager:
         self.files=[]
 
     def get_context_id (self):
-        """Get id(name) of all RDF sub-graphs
+        """Get id(name) of all rdf sub-graphs.
 
         Returns:
-            string: id of all RDF sub-graphs
+            string: id of all rdf sub-graphs.
         """
         ids = []
         for context in self.c_graph.contexts():
@@ -34,23 +36,25 @@ class Manager:
         return ids
         
     def get_namespace (self):
-        """Get all prefixes and namespaces of the current graphs
+        """Get all prefixes and namespaces of the current graphs.
 
         Returns:
-            [(string, string)]: a list of tuples containing prefixes and namespaces 
+            [(string, string)]: a list of tuples containing prefixes and namespaces .
         """
         return list(self.c_graph.namespaces())
 
     def query (self, query, id=None):
-        """Query RDF graphs using SPARQL
+        """Query rdf graphs using SPARQL.
 
         Args:
-            query (SPARQL string): SPARQL statments used to query the graph
-            id (string, optional): Name of sub graphs to query. Leave to None if entire RDF graph should be query. Defaults to None.
+            query (SPARQL string): SPARQL statments used to query the graph.
+            id (string, optional): Name of sub graphs to query. Leave to None if entire rdf graph should be query. Defaults to None.
 
         Returns:
-            list of resources: a list of resources that met the SPARQL statments
+            list of resources: a list of resources that met the SPARQL statments.
         """
+        print("INFO: Querying rdf graph with SPARQL statment \'%s\'..." % str(query))
+        self.monitor.start(mode=1)
         result = []
         try:
             if id:
@@ -65,36 +69,47 @@ class Manager:
             result[i] = list(result[i])
             for j in range(len(result[i])):
                     result[i][j] = str(result[i][j])
+        
+        self.monitor.stop()
 
         return result           
 
     def import_file (self, filename):
-        """Import RDF graph from files. Must be XML formatted. The subgraph id will be based on filename.
+        """Import rdf graph from files. Must be XML formatted. The subgraph id will be based on filename.
 
         Args:
-            filename (string): path to RDF file
+            filename (string): path to rdf file.
         """
-        path = Path(filename).absolute()
-        print("INFO: Importing RDF graph from \'%s\'..." % str(path))
-        if path.exists():
-            id = path.stem
-            self.c_graph.parse(source=str(path), format='xml', publicID=id)
+        print("INFO: Importing rdf graph from \'%s\'..." % str(filename))
+        self.monitor.start(mode=1)
+        try:
+            path = Path(filename).resolve()
+            if path.exists():
+                id = path.stem
+                self.c_graph.parse(source=str(path), format='xml', publicID=id)
+                return True, path
+            else:
+                return False, filename
+        except:
+            return False, path
+        finally:
+            self.monitor.stop()
 
     def export_file (self, filename, id=None):
-        """Expoert RDF graph or subgraph to file. Provide id to specify the sub graph to export. 
+        """Expoert rdf graph or subgraph to file. Provide id to specify the sub graph to export. 
 
         Args:
-            filename (string): path to RDF file
-            id (string, optional): Name of sub graphs to export. Leave to None if entire RDF graph should be exported . Defaults to None.
+            filename (string): path to rdf file.
+            id (string, optional): Name of sub graphs to export. Leave to None if entire rdf graph should be exported . Defaults to None.
         """
         path = Path(filename).absolute()
         if not id:
-            print("INFO: Exporting full RDF graph to \'%s\'..." % str(path))
+            print("INFO: Exporting full rdf graph to \'%s\'..." % str(path))
             self.monitor.start(mode=1)
             self.c_graph.serialize(destination=filename, format='pretty-xml')
             self.monitor.stop()
         else:
-            print("INFO: Exporting \'%s\' RDF sub-graph to \'%s\'..." % (id, path))
+            print("INFO: Exporting \'%s\' rdf sub-graph to \'%s\'..." % (id, path))
             self.monitor.start(mode=1)
             for g in self.c_graph.contexts():
                 if str(g.identifier) == id:
@@ -102,28 +117,28 @@ class Manager:
             self.monitor.stop()
     
     def import_reports(self, dataset_size):
-        """Import arrest reports and crime reports from the web
+        """Import arrest reports and crime reports from the web.
 
         Args:
-            dataset_size (int): the maximum of data per dataset to include
+            dataset_size (int): the maximum of data per dataset to include.
         """
         self._import_arrest_reports(dataset_size=dataset_size)
         self._import_crime_reports(dataset_size=dataset_size)
 
     def _download_csv(self, url, dataset_size):
-        """Download data from a given url and convert such data to DataFrame
+        """Download data from a given url and convert such data to DataFrame.
 
         Args:
-            url (str): url where dataset located
-            dataset_size (int): the amount of data should be downloaded
+            url (str): url where dataset located.
+            dataset_size (int): the amount of data should be downloaded.
 
         Returns:
-            DataFrame: a dataframe contains all data from a given url
+            DataFrame: a dataframe contains all data from a given url.
         """
         try:
             with Session() as sess:
 
-                #Determine how many data should be downloaded 
+                #Determine how many data should be downloaded
                 available_dataset_size = int(sess.get(url+".json?$query=SELECT COUNT(*)").json()[0]["COUNT"])
                 nums_data_to_download = dataset_size if (dataset_size< available_dataset_size) else available_dataset_size
 
@@ -151,7 +166,7 @@ class Manager:
             print('ERROR: %s' % (e))
     
     def _import_arrest_reports (self, url = 'https://data.lacity.org/resource/amvf-fr72', dataset_size=9999999999):
-        """Import arrest reports from the web
+        """Import arrest reports from the web.
 
         Args:
             url (str, optional): url of arrest reports. Defaults to 'https://data.lacity.org/resource/amvf-fr72'.
@@ -255,7 +270,7 @@ class Manager:
         self.monitor.stop()
 
     def _import_crime_reports (self, url = 'https://data.lacity.org/resource/2nrs-mtv8', dataset_size=9999999999):
-        """Import crime reports from the web
+        """Import crime reports from the web.
 
         Args:
             url (str, optional): url of crime reports. Defaults to 'https://data.lacity.org/resource/2nrs-mtv8'.
