@@ -264,14 +264,25 @@ class MainWindow (qtw.QWidget):
 
         #Extract headers from SPARQL query. Use 1,2,3... if no header is provided.
         splitted_query = re.split('where', query, flags=re.IGNORECASE)[0]
-        splitted_query = re.split(' ', splitted_query)
-        splitted_query = [x for x in splitted_query if '?' in x]
-        splitted_query = [x.replace('(','').replace(')','') for x in splitted_query]
+
+        splitted_query = re.split(' ', splitted_query)[1:]
+        splitted_query = [x for x in splitted_query if x !='']
+
+        headers = []
+        accumulation = ''
 
         if '*' in re.split('where', query, flags=re.IGNORECASE)[0]:
             headers = [x for x in range(len(result[0]))]
         else:
-            headers = [x[1:] for x in splitted_query]
+            for i in range(len(splitted_query)):
+                accumulation = accumulation + ' ' + splitted_query[i]
+                if (accumulation.count('(') == accumulation.count (')')):
+                    match = re.compile(r"[?][\S]+$")
+                    accumulation = match.search(accumulation).group(0)
+                    if accumulation[-1] == ')':
+                        accumulation = accumulation[:-1]
+                    
+                    headers.append(accumulation)     
 
         #Insert headers onto result
         result.insert(0,headers)
