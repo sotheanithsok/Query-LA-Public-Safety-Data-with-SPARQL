@@ -281,6 +281,8 @@ class MainWindow (qtw.QWidget):
                     accumulation = match.search(accumulation).group(0)
                     if accumulation[-1] == ')':
                         accumulation = accumulation[:-1]
+                    if accumulation[0] == '?':
+                        accumulation = accumulation[1:]
                     
                     headers.append(accumulation)     
 

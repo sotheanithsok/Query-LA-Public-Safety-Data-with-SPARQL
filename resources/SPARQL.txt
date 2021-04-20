@@ -1,0 +1,8 @@
+Question: How does ages 
+Query:
+    SELECT ?Age (count( distinct ?Report) as ?Count) WHERE {
+        ?Report ns1:hasPerson ?Person .
+        ?Person ns1:hasAge ?Age .
+    }
+    GROUP BY ?Age 
+    ORDER BY ?Age 

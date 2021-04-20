@@ -197,6 +197,7 @@ class Manager:
         ids = arrest_reports['rpt_id'].apply(lambda x : Literal(x, datatype=XSD.integer))
         dates = arrest_reports['arst_date'].apply(lambda x : Literal(x, datatype=XSD.date))
         times = arrest_reports['time'].apply(lambda x : Literal(x, datatype=XSD.time))
+        dateTimes = (dates+'T'+times).apply(lambda x : Literal(x, datatype=XSD.dateTime))
         report_types = arrest_reports['report_type'].apply(lambda x : Literal(x, datatype=XSD.string))
         arrest_types = arrest_reports['arst_typ_cd'].apply(lambda x : Literal(x, datatype=XSD.string))
         disposition_descriptions = arrest_reports['dispo_desc'].apply(lambda x : Literal(x, datatype=XSD.string))
@@ -220,6 +221,7 @@ class Manager:
 
         booking_dates = arrest_reports['bkg_date'].apply(lambda x : Literal(x, datatype=XSD.date))
         booking_times = arrest_reports['bkg_time'].apply(lambda x : Literal(x, datatype=XSD.time))
+        booking_dateTimes = (booking_dates + 'T' + booking_times).apply(lambda x : Literal(x, datatype=XSD.dateTime))
         booking_locations = arrest_reports['bgk_location'].apply(lambda x : Literal(x, datatype=XSD.string))
         booking_codes = arrest_reports['bkg_loc_cd'].apply(lambda x : Literal(x, datatype=XSD.integer))
 
@@ -230,8 +232,7 @@ class Manager:
         graph.addN([(s, RDF.type, namespace['ArrestReport'], graph) for s in reports])
 
         graph.addN([(s, namespace['hasID'], o, graph) for s,o in zip(reports, ids)])
-        graph.addN([(s, namespace['hasDate'], o, graph) for s, o in zip(reports, dates)])
-        graph.addN([(s, namespace['hasTime'], o, graph) for s, o in zip(reports, times)])
+        graph.addN([(s, namespace['hasDateTime'], o, graph) for s, o in zip(reports, dateTimes)])
         graph.addN([(s, namespace['hasReporType'], o, graph) for s, o in zip(reports, report_types)])
         graph.addN([(s, namespace['hasArrestType'], o, graph) for s, o in zip(reports, arrest_types)])
         graph.addN([(s, namespace['hasDispositionDescription'], o, graph) for s, o in zip(reports, disposition_descriptions)])
@@ -262,8 +263,7 @@ class Manager:
         graph.addN([(s, namespace['hasChargeDescription'], o, graph) for s, o in zip(charges, charge_descriptions)])
       
         graph.addN([(s, RDF.type, namespace['Booking'], graph) for s in bookings])
-        graph.addN([(s, namespace['hasBookingDate'], o, graph) for s, o in zip(bookings, booking_dates)])
-        graph.addN([(s, namespace['hasBookingTime'], o, graph) for s, o in zip(bookings, booking_times)])
+        graph.addN([(s, namespace['hasBookingDateTime'], o, graph) for s, o in zip(bookings, booking_dateTimes)])
         graph.addN([(s, namespace['hasBookingLocation'], o, graph) for s, o in zip(bookings, booking_locations)])
         graph.addN([(s, namespace['hasBookingCode'], o, graph) for s, o in zip(bookings, booking_codes)])
 
@@ -303,7 +303,8 @@ class Manager:
         ids = crime_reports['dr_no'].apply(lambda x : Literal(x, datatype=XSD.integer))
         times = crime_reports['time_occ'].apply(lambda x : Literal(x, datatype=XSD.time))
         dates = crime_reports['date_occ'].apply(lambda x : Literal(x, datatype=XSD.date))
-        date_reporteds = crime_reports['date_rptd'].apply(lambda x : Literal(x, datatype=XSD.date))
+        dateTimes = (dates + 'T' + times).apply(lambda x : Literal(x, datatype=XSD.dateTime))
+        date_reporteds = crime_reports['date_rptd'].apply(lambda x : Literal(x, datatype=XSD.dateTime))
         mocodes = crime_reports['mocodes'].apply(lambda x : Literal(x, datatype=XSD.string))
         part_1_2s = crime_reports['part_1_2'].apply(lambda x : Literal(x, datatype=XSD.integer))
 
@@ -342,8 +343,7 @@ class Manager:
         graph.addN([(s, RDF.type, namespace['CrimeReport'], graph) for s in reports])
 
         graph.addN([(s, namespace['hasID'], o, graph) for s, o in zip(reports, ids)])
-        graph.addN([(s, namespace['hasTime'], o, graph) for s, o in zip(reports, times)])
-        graph.addN([(s, namespace['hasDate'], o, graph) for s, o in zip(reports, dates)])
+        graph.addN([(s, namespace['hasDateTime'], o, graph) for s, o in zip(reports, dateTimes)])
         graph.addN([(s, namespace['hasDateReported'], o, graph) for s, o in zip(reports, date_reporteds)])
         graph.addN([(s, namespace['hasMocodes'], o, graph) for s, o in zip(reports, mocodes)])
         graph.addN([(s, namespace['hasPart1-2'], o, graph) for s, o in zip(reports, part_1_2s)])
