@@ -267,6 +267,7 @@ class MainWindow (qtw.QWidget):
         query = query.replace('\n', ' ')
         query = query.replace('\t', ' ')
         query = re.sub(' +', ' ', query)
+        query = query.strip()
 
         if '*' in re.split('where', query, flags=re.IGNORECASE)[0] or 'WHERE'.upper() not in query.upper():
             if len(result)!=0:
