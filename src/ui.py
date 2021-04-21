@@ -264,8 +264,8 @@ class MainWindow (qtw.QWidget):
         headers = []
 
         #Normalize query
-        query = query.replace('\n', '')
-        query = query.replace('\t', '')
+        query = query.replace('\n', ' ')
+        query = query.replace('\t', ' ')
         query = re.sub(' +', ' ', query)
 
         if '*' in re.split('where', query, flags=re.IGNORECASE)[0] or 'WHERE'.upper() not in query.upper():
