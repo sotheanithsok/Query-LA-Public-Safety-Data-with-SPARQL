@@ -261,19 +261,22 @@ class MainWindow (qtw.QWidget):
         """
         #Query graph
         result = self.rdf_manager.query(query)
-
-        #Extract headers from SPARQL query. Use 1,2,3... if no header is provided.
-        splitted_query = re.split('where', query, flags=re.IGNORECASE)[0]
-
-        splitted_query = re.split(' ', splitted_query)[1:]
-        splitted_query = [x for x in splitted_query if x !='']
-
         headers = []
-        accumulation = ''
 
-        if '*' in re.split('where', query, flags=re.IGNORECASE)[0]:
-            headers = [x for x in range(len(result[0]))]
+        #Normalize query
+        query = query.replace('\n', '')
+        query = query.replace('\t', '')
+        query = re.sub(' +', ' ', query)
+
+        if '*' in re.split('where', query, flags=re.IGNORECASE)[0] or 'WHERE'.upper() not in query.upper():
+            if len(result)!=0:
+                headers = [x for x in range(len(result[0]))]
         else:
+            #Extract headers from SPARQL query. Use 1,2,3... if no header is provided.
+            splitted_query = re.split('where', query, flags=re.IGNORECASE)[0]
+            splitted_query = re.split(' ', splitted_query)[1:]
+            splitted_query = [x for x in splitted_query if x !='']
+            accumulation = ''
             for i in range(len(splitted_query)):
                 accumulation = accumulation + ' ' + splitted_query[i]
                 if (accumulation.count('(') == accumulation.count (')')):
@@ -283,8 +286,7 @@ class MainWindow (qtw.QWidget):
                         accumulation = accumulation[:-1]
                     if accumulation[0] == '?':
                         accumulation = accumulation[1:]
-                    
-                    headers.append(accumulation)     
+                    headers.append(accumulation)
 
         #Insert headers onto result
         result.insert(0,headers)
