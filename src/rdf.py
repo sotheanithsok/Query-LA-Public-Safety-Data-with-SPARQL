@@ -188,11 +188,11 @@ class Manager:
         self.monitor.start(mode=1)
 
         #Convert data to rdf literals or URIRefs
-        reports = ('Report#'+ arrest_reports['rpt_id'].apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
-        persons = ('Person#'+ (arrest_reports['age']+arrest_reports['sex_cd']+arrest_reports['descent_cd']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
-        locations  = ('Location#'+ (arrest_reports['rd']+arrest_reports['area']+arrest_reports['area_desc']+arrest_reports['location']+arrest_reports['crsst']+arrest_reports['lat']+arrest_reports['lon']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
-        charges  = ('Charge#'+ (arrest_reports['chrg_grp_cd']+arrest_reports['grp_description']+arrest_reports['charge']+arrest_reports['chrg_desc']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
-        bookings  = ('Booking#'+ (arrest_reports['bkg_date']+arrest_reports['bkg_time']+arrest_reports['bgk_location']+arrest_reports['bkg_loc_cd']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        reports = ('Report-'+ arrest_reports['rpt_id'].apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        persons = ('Person-'+ (arrest_reports['age']+arrest_reports['sex_cd']+arrest_reports['descent_cd']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        locations  = ('Location-'+ (arrest_reports['rd']+arrest_reports['area']+arrest_reports['area_desc']+arrest_reports['location']+arrest_reports['crsst']+arrest_reports['lat']+arrest_reports['lon']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        charges  = ('Charge-'+ (arrest_reports['chrg_grp_cd']+arrest_reports['grp_description']+arrest_reports['charge']+arrest_reports['chrg_desc']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        bookings  = ('Booking-'+ (arrest_reports['bkg_date']+arrest_reports['bkg_time']+arrest_reports['bgk_location']+arrest_reports['bkg_loc_cd']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
 
         ids = arrest_reports['rpt_id'].apply(lambda x : Literal(x, datatype=XSD.integer))
         dates = arrest_reports['arst_date'].apply(lambda x : Literal(x, datatype=XSD.date))
@@ -292,13 +292,13 @@ class Manager:
         self.monitor.start(mode=1)
 
         #Convert data to rdf literals or URIRefs
-        reports = ('Report#' + (crime_reports['dr_no']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
-        persons = ('Person#' + (crime_reports['vict_age'] + crime_reports['vict_sex'] + crime_reports['vict_descent']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
-        locations = ('Location#' + (crime_reports['rpt_dist_no'] + crime_reports['area'] + crime_reports['area_name'] + crime_reports['location'] + crime_reports['cross_street'] + crime_reports['lat'] + crime_reports['lon']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
-        crimes = ('Crime#' + (crime_reports['crm_cd'] + crime_reports['crm_cd_desc'] + crime_reports['crm_cd_1'] + crime_reports['crm_cd_2'] + crime_reports['crm_cd_3'] + crime_reports['crm_cd_4']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
-        premises = ('Premise#' + (crime_reports['premis_cd'] + crime_reports['premis_desc']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
-        weapons= ('Weapon#' + (crime_reports['weapon_used_cd'] + crime_reports['weapon_desc']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
-        statuss = ('Status#' + (crime_reports['status'] + crime_reports['status_desc']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        reports = ('Report-' + (crime_reports['dr_no']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        persons = ('Person-' + (crime_reports['vict_age'] + crime_reports['vict_sex'] + crime_reports['vict_descent']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        locations = ('Location-' + (crime_reports['rpt_dist_no'] + crime_reports['area'] + crime_reports['area_name'] + crime_reports['location'] + crime_reports['cross_street'] + crime_reports['lat'] + crime_reports['lon']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        crimes = ('Crime-' + (crime_reports['crm_cd'] + crime_reports['crm_cd_desc'] + crime_reports['crm_cd_1'] + crime_reports['crm_cd_2'] + crime_reports['crm_cd_3'] + crime_reports['crm_cd_4']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        premises = ('Premise-' + (crime_reports['premis_cd'] + crime_reports['premis_desc']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        weapons= ('Weapon-' + (crime_reports['weapon_used_cd'] + crime_reports['weapon_desc']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
+        statuss = ('Status-' + (crime_reports['status'] + crime_reports['status_desc']).apply(lambda x : md5(x.encode('utf-8')).hexdigest())).apply(lambda x : namespace[x])
 
         ids = crime_reports['dr_no'].apply(lambda x : Literal(x, datatype=XSD.integer))
         times = crime_reports['time_occ'].apply(lambda x : Literal(x, datatype=XSD.time))

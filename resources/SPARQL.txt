@@ -1,8 +1,0 @@
-Question: Does ages affect the likelihood that you will be involve with a crime?  
-Query:
-    SELECT ?Age (count( distinct ?Report) as ?Count) WHERE {
-        ?Report ns1:hasPerson ?Person .
-        ?Person ns1:hasAge ?Age .
-    }
-    GROUP BY ?Age 
-    ORDER BY ?Age 
