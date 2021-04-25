@@ -114,3 +114,5 @@ dmypy.json
 .pyre/
 .vscode/settings.json
 *.rdf
+exec
+resources/auto-py-to-exe-config.json
