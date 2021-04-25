@@ -282,12 +282,17 @@ class MainWindow (qtw.QWidget):
                 accumulation = accumulation + ' ' + splitted_query[i]
                 if (accumulation.count('(') == accumulation.count (')')):
                     match = re.compile(r"[?][\S]+$")
-                    accumulation = match.search(accumulation).group(0)
-                    if accumulation[-1] == ')':
-                        accumulation = accumulation[:-1]
-                    if accumulation[0] == '?':
-                        accumulation = accumulation[1:]
-                    headers.append(accumulation)
+                    regex = match.search(accumulation)
+                    if regex:
+                        accumulation = regex.group(0)
+                        if accumulation[-1] == ')':
+                            accumulation = accumulation[:-1]
+                        if accumulation[0] == '?':
+                            accumulation = accumulation[1:]
+                        headers.append(accumulation)
+                    else:
+                        if len(result)!=0:
+                            headers = [x for x in range(len(result[0]))] 
 
         #Insert headers onto result
         result.insert(0,headers)
