@@ -44,10 +44,13 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
  - [Main (main.py)](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/main.py)
  - [View/Controller (ui.py)](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/ui.py)
  - [RDF Graph Manager(rdf.py)](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/rdf.py)
+ - [Monitor(monitor.py)](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/monitor.py)
  - [Pip Requirements (requirements.txt)](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/requirements.txt)
  - [Windows Standalone Executable (main.exe)]()
  ### Documentations
  - [Project Description]()
+ - [Presentation]()
+ - [Presentation]()
  - [Presentation]()
 
 ## Datasets
