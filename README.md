@@ -71,13 +71,14 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 1. Clone the repository.
-
-```git clone https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data```
-
+```sh
+git clone https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data
+```
 2. Install python packages.
-
-```pip install -r requirements.txt```
-
+```sh
+pip install -r requirements.txt
+```
 3. Run the main program.
-
-```python main.py```
+```sh
+python main.py
+```
