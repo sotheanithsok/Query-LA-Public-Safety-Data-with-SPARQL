@@ -7,7 +7,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![alt text](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/Capture.PNG)
 
 LA Public Safety Data with SPARQL Project enables the users to query information on crime and arrest details from the RDF data source.
 
@@ -41,4 +41,4 @@ To get a local copy up and running follow these simple example steps.
 2. Install python packages
    pip install -r requirements.txt
    
-3. Then python ./main.py for loading and searching RDF file
+3. Then run python ./main.py for loading and searching in RDF file.
