@@ -37,7 +37,7 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone the repo
    git clone https://github.com/your_username_/Project-Name.git
-   ```
+
 2. Install python packages
    pip install -r requirements.txt
    
