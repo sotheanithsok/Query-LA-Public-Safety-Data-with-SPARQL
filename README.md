@@ -23,22 +23,22 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
 * [Tqdm](https://pypi.org/project/tqdm/)
 
 ### Authors 
-- Abhinay Kacham
+ - Abhinay Kacham
   - Email: abhinay.kacham@student.csulb.edu
   - Github: https://github.com/abhinaykacham
  - Dinesh Reddy Kommera
-  - Email: dineshreddy.kommera@student.csulb.edu
-  - Github: https://github.com/DineshReddyKommera
+ - Email: dineshreddy.kommera@student.csulb.edu
+ - Github: https://github.com/DineshReddyKommera
  - Christopher Vargas 
-  - Email: christopher.vargas@student.csulb.edu 
-  - Github: https://github.com/ctopher-vargas
-- Lauro Cabral 
-  - Email: lauro.cabral@student.csulb.edu 
-  - Github: https://github.com/Lauro199471
-- Sotheanith Sok 
-  - Email: sotheanith.sok@student.csulb.edu 
-  - Github: https://github.com/sotheanith
-  - 
+ - Email: christopher.vargas@student.csulb.edu 
+ - Github: https://github.com/ctopher-vargas
+ - Lauro Cabral 
+ - Email: lauro.cabral@student.csulb.edu 
+ - Github: https://github.com/Lauro199471
+ - Sotheanith Sok 
+ - Email: sotheanith.sok@student.csulb.edu 
+ - Github: https://github.com/sotheanith
+
 ## Quick Links
  ### Soure Codes
  - [Main (main.py)](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/main.py)
