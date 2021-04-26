@@ -11,7 +11,7 @@
 
 Query LA Public Safety Data with SPARQL Project enables the users to query information on arrest and crime details from the RDF data source.
 
-### Built With
+## Built With
 * [Python](https://www.python.org/)
 * [Auto-Py-to-Exe](https://pypi.org/project/auto-py-to-exe/)
 * [Dominate - generate dom using python syntax](https://pypi.org/project/dominate/)
@@ -22,7 +22,7 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
 * [Request](https://pypi.org/project/requests/)
 * [Tqdm](https://pypi.org/project/tqdm/)
 
-### Authors 
+## Authors 
  - Abhinay Kacham
    - Email: abhinay.kacham@student.csulb.edu
    - Github: https://github.com/abhinaykacham
@@ -63,18 +63,15 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
 Below are instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-
 *  Python 3.x
 
 ### Installation
-
 1. Clone the repo
-   git clone https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data
+```git clone https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data```
 
 2. Install python packages
    pip install -r requirements.txt
