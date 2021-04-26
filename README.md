@@ -11,7 +11,7 @@
 
 Query LA Public Safety Data with SPARQL Project enables the users to query information on arrest and crime details from the RDF data source.
 
-### Built With
+## Built With
 * [Python](https://www.python.org/)
 * [Auto-Py-to-Exe](https://pypi.org/project/auto-py-to-exe/)
 * [Dominate - generate dom using python syntax](https://pypi.org/project/dominate/)
@@ -22,7 +22,7 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
 * [Request](https://pypi.org/project/requests/)
 * [Tqdm](https://pypi.org/project/tqdm/)
 
-### Authors 
+## Authors 
  - Abhinay Kacham
    - Email: abhinay.kacham@student.csulb.edu
    - Github: https://github.com/abhinaykacham
@@ -42,17 +42,20 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
 ## Quick Links
  ### Soure Codes
  - [Main](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/main.py)
- - [View/Controller](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/ui.py)
- - [RDF Graph Manager](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/rdf.py)
- - [Monitor](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/monitor.py)
+ - [View/Controller](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/ui.py#L12)
+ - [Custom Http Request Handler](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/ui.py#L454)
+ - [RDF Graph Manager](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/rdf.py#L12)
+ - [Monitor](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/monitor.py#L5)
  - [RDF Files](https://drive.google.com/drive/folders/1sjPeYTN8XCrcWbDNEb_fmjNxwBc5Cn5F?usp=sharing)
  - [Pip Requirements](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/requirements.txt)
  - [Windows Executable](https://drive.google.com/file/d/1T_1x2XPkAI4jst7eiVCgYuFAvtiiZ698/view?usp=sharing)
  ### Documentations
  - [Project Description](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/Project%203.pdf)
- - [Presentation]()
- - [Presentation]()
- - [Presentation]()
+ - [Presentation](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/Presentation.pdf)
+ - [Questions and Queries](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/Questions%20and%20Queries.pdf)
+ - [Program Structure](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/ProgramStructure.pdf)
+ - [Data Mapping](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/Data-Mapping.pdf)
+ - [RDF Relationship](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/RDF-Relationship.pdf)
 
 ## Datasets
 - [Arrest Data from 2020 to Present](https://data.lacity.org/Public-Safety/Arrest-Data-from-2020-to-Present/amvf-fr72)
@@ -60,20 +63,22 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-Below are instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Below are instructions on setting up the project locally.
+To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
-
 *  Python 3.x
 
 ### Installation
-
-1. Clone the repo
-   git clone https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data
-
-2. Install python packages
-   pip install -r requirements.txt
-   
-3. Then run python ./main.py for loading and searching in RDF file.
+1. Clone the repository.
+```sh
+git clone https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data
+```
+2. Install python packages.
+```sh
+pip install -r requirements.txt
+```
+3. Run the main program.
+```sh
+python main.py
+```
