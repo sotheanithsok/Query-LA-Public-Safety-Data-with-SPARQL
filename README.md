@@ -70,10 +70,14 @@ To get a local copy up and running follow these simple example steps.
 *  Python 3.x
 
 ### Installation
-1. Clone the repo
+1. Clone the repository.
+
 ```git clone https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data```
 
-2. Install python packages
-   pip install -r requirements.txt
-   
-3. Then run python ./main.py for loading and searching in RDF file.
+2. Install python packages.
+
+```pip install -r requirements.txt```
+
+3. Run the main program.
+
+```python main.py```
