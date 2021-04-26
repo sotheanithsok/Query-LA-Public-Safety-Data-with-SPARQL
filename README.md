@@ -12,16 +12,47 @@
 LA Public Safety Data with SPARQL Project enables the users to query information on crime and arrest details from the RDF data source.
 
 ### Built With
-* Python
-* Request
-* RdfLib
-* Pandas
-* Auto-Py-to-Exe
-* Tqdm - cli progress bar
-* Dominate - generate dom using python syntax
-* PyQt5 - gui library
-* PyQtWebEngine - add web viewer to PyQt5
+* [Python](https://www.python.org/)
+* [Request](https://pypi.org/project/requests/)
+* [RdfLib](https://rdflib.readthedocs.io/en/stable/)
+* [Pandas](https://pypi.org/project/pandas/)
+* [Auto-Py-to-Exe](https://pypi.org/project/auto-py-to-exe/)
+* [Tqdm - cli progress bar](https://pypi.org/project/tqdm/)
+* [Dominate - generate dom using python syntax](https://pypi.org/project/dominate/)
+* [PyQt5 - gui library](https://pypi.org/project/PyQt5/)
+* [PyQtWebEngine - add web viewer to PyQt5](https://pypi.org/project/PyQtWebEngine/)
 
+### Authors 
+- Sotheanith Sok 
+  - Email: sotheanith.sok@student.csulb.edu 
+  - Github: https://github.com/sotheanith
+- Lauro Cabral 
+  - Email: lauro.cabral@student.csulb.edu 
+  - Github: https://github.com/Lauro199471
+- Christopher Vargas 
+  - Email: christopher.vargas@student.csulb.edu 
+  - Github: https://github.com/ctopher-vargas
+- Abhinay Kacham
+  - Email: abhinay.kacham@student.csulb.edu
+  - Github: https://github.com/abhinaykacham
+- Dinesh Reddy Kommera
+  - Email: dinesh.reddykommera@student.csulb
+  - Github: https://github.com/DineshReddyKommera
+
+## Quick Links
+ ### Soure Codes
+ - [Main (main.py)](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/main.py)
+ - [RDF Graph (rdf.py)](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/rdf.py)
+ - [Pip Requirements (requirements.txt)](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/requirements.txt)
+ - [UI (ui.py)](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/ui.py)
+ - [Windows Standalone Executable (main.exe)]()
+ ### Documentations
+ - [Project Description]()
+ - [Presentation]()
+
+## Datasets
+- [Arrest Data from 2020 to Present](https://data.lacity.org/Public-Safety/Arrest-Data-from-2020-to-Present/amvf-fr72)
+- [Crime-Data-from-2020-to-Present](https://data.lacity.org/Public-Safety/Crime-Data-from-2020-to-Present/2nrs-mtv8)
 
 <!-- GETTING STARTED -->
 ## Getting Started
