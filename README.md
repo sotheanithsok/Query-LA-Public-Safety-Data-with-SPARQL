@@ -36,7 +36,7 @@ LA Public Safety Data with SPARQL Project enables the users to query information
   - Email: abhinay.kacham@student.csulb.edu
   - Github: https://github.com/abhinaykacham
 - Dinesh Reddy Kommera
-  - Email: dinesh.reddykommera@student.csulb
+  - Email: dineshreddy.kommera@student.csulb.edu
   - Github: https://github.com/DineshReddyKommera
 
 ## Quick Links
