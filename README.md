@@ -24,20 +24,20 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
 
 ### Authors 
  - Abhinay Kacham
-  - Email: abhinay.kacham@student.csulb.edu
-  - Github: https://github.com/abhinaykacham
+   - Email: abhinay.kacham@student.csulb.edu
+   - Github: https://github.com/abhinaykacham
  - Dinesh Reddy Kommera
- - Email: dineshreddy.kommera@student.csulb.edu
- - Github: https://github.com/DineshReddyKommera
+   - Email: dineshreddy.kommera@student.csulb.edu
+   - Github: https://github.com/DineshReddyKommera
  - Christopher Vargas 
- - Email: christopher.vargas@student.csulb.edu 
- - Github: https://github.com/ctopher-vargas
+   - Email: christopher.vargas@student.csulb.edu 
+   - Github: https://github.com/ctopher-vargas
  - Lauro Cabral 
- - Email: lauro.cabral@student.csulb.edu 
- - Github: https://github.com/Lauro199471
+   - Email: lauro.cabral@student.csulb.edu 
+   - Github: https://github.com/Lauro199471
  - Sotheanith Sok 
- - Email: sotheanith.sok@student.csulb.edu 
- - Github: https://github.com/sotheanith
+   - Email: sotheanith.sok@student.csulb.edu 
+   - Github: https://github.com/sotheanith
 
 ## Quick Links
  ### Soure Codes
