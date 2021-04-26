@@ -63,8 +63,8 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
 
 <!-- GETTING STARTED -->
 ## Getting Started
-Below are instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Below are instructions on setting up the project locally.
+To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 *  Python 3.x
