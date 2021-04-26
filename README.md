@@ -42,17 +42,20 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
 ## Quick Links
  ### Soure Codes
  - [Main](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/main.py)
- - [View/Controller](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/ui.py)
- - [RDF Graph Manager](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/rdf.py)
- - [Monitor](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/src/monitor.py)
+ - [View/Controller](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/ui.py#L12)
+ - [Custom Http Request Handler](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/ui.py#L454)
+ - [RDF Graph Manager](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/rdf.py#L12)
+ - [Monitor](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/monitor.py#L5)
  - [RDF Files](https://drive.google.com/drive/folders/1sjPeYTN8XCrcWbDNEb_fmjNxwBc5Cn5F?usp=sharing)
  - [Pip Requirements](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/requirements.txt)
  - [Windows Executable](https://drive.google.com/file/d/1T_1x2XPkAI4jst7eiVCgYuFAvtiiZ698/view?usp=sharing)
  ### Documentations
  - [Project Description](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/Project%203.pdf)
- - [Presentation]()
- - [Presentation]()
- - [Presentation]()
+ - [Presentation](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/Presentation.pdf)
+ - [Questions and Queries](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/Questions%20and%20Queries.pdf)
+ - [Program Structure](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/ProgramStructure.pdf)
+ - [Data Mapping](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/Data-Mapping.pdf)
+ - [RDF Relationship](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/RDF-Relationship.pdf)
 
 ## Datasets
 - [Arrest Data from 2020 to Present](https://data.lacity.org/Public-Safety/Arrest-Data-from-2020-to-Present/amvf-fr72)
