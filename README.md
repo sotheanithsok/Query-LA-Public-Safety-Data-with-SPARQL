@@ -84,4 +84,4 @@ python main.py
 ```
 
 ## Course
- - [CECS 574 - Distributed Computing](http://catalog.csulb.edu/preview_course_nopop.php?catoid=5&coid=40048)
+ - [CECS 571 - Fundamentals of Semantic Web technologies](http://catalog.csulb.edu/preview_course_nopop.php?catoid=5&coid=40046)
