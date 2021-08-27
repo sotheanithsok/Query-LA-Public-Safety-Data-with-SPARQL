@@ -82,3 +82,6 @@ pip install -r requirements.txt
 ```sh
 python main.py
 ```
+
+## Course
+ - [CECS 574 - Distributed Computing](http://catalog.csulb.edu/preview_course_nopop.php?catoid=5&coid=40048)
