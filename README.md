@@ -23,21 +23,11 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
 * [Tqdm](https://pypi.org/project/tqdm/)
 
 ## Authors 
- - Abhinay Kacham
-   - Email: abhinay.kacham@student.csulb.edu
-   - Github: https://github.com/abhinaykacham
- - Dinesh Reddy Kommera
-   - Email: dineshreddy.kommera@student.csulb.edu
-   - Github: https://github.com/DineshReddyKommera
- - Christopher Vargas 
-   - Email: christopher.vargas@student.csulb.edu 
-   - Github: https://github.com/ctopher-vargas
- - Lauro Cabral 
-   - Email: lauro.cabral@student.csulb.edu 
-   - Github: https://github.com/Lauro199471
- - Sotheanith Sok 
-   - Email: sotheanith.sok@student.csulb.edu 
-   - Github: https://github.com/sotheanith
+ - [Abhinay Kacham](https://github.com/abhinaykacham)
+ - [Dinesh Reddy Kommera](https://github.com/DineshReddyKommera)
+ - [Christopher Vargas](https://github.com/ctopher-vargas)
+ - [Lauro Cabral](https://github.com/Lauro199471)
+ - [Sotheanith Sok](https://github.com/sotheanith-sok)
 
 ## Quick Links
  ### Soure Codes
@@ -46,9 +36,9 @@ Query LA Public Safety Data with SPARQL Project enables the users to query infor
  - [Custom Http Request Handler](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/ui.py#L454)
  - [RDF Graph Manager](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/rdf.py#L12)
  - [Monitor](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/d7bd79fcbbcde79f1b4a41abf62256ac4b77dc5f/src/monitor.py#L5)
- - [RDF Files](https://drive.google.com/drive/folders/1sjPeYTN8XCrcWbDNEb_fmjNxwBc5Cn5F?usp=sharing)
+ - [RDF File](https://mega.nz/file/KjRxzBgL#wxzlmuCluKd_E9Et5oaPKKZ3FaFEhKwwCArRZfoljkk)
  - [Pip Requirements](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/requirements.txt)
- - [Windows Executable](https://drive.google.com/file/d/1T_1x2XPkAI4jst7eiVCgYuFAvtiiZ698/view?usp=sharing)
+ - [Windows Executable](https://mega.nz/file/Du5iwSAI#iW4bQfOZWrhEx1GoDGeuN44cwKTrtQu78fdvPLpH2yI)
  ### Documentations
  - [Project Description](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/Project%203.pdf)
  - [Presentation](https://github.com/sotheanith/SPARQL-with-LA-Public-Safety-Data/blob/main/doc/Presentation.pdf)
